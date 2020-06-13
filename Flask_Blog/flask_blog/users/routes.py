@@ -1,5 +1,4 @@
 from flask import Blueprint
-
 from flask import (render_template, url_for, flash,
                 redirect, request)
 from flask_blog import  db, bcrypt
@@ -69,12 +68,14 @@ def account():
         db.session.commit()
         flash(message="Details have been Updated", category="success")
         redirect(url_for('users.account'))
+    ## This elif signifies when the account section was visited,
+    ## the current user's username and email would be auto populated
     elif request.method=='GET':
         form.username.data=current_user.username
         form.email.data=current_user.email
     image_file=url_for(endpoint='static',filename='profile_pics/' + current_user.image_file)
     print(image_file)
-    return render_template('account.html',title=account,
+    return render_template('account.html',title='Account',
                             image_file=image_file,form=form)
 
 
@@ -83,6 +84,8 @@ def user_posts(username):
     page=request.args.get('page',1,type=int)
     user=User.query.filter_by(username=username).first_or_404()
     wall_post=Post.query.filter_by(author=user).order_by(Post.date_posted.desc()).paginate(per_page=2,page=page)
+    # In the html file,
+    # user.username and post.author.username implies the same thing
     return render_template('user_posts.html',posts=wall_post,user=user)
 
 
@@ -105,7 +108,6 @@ def reset_token(token):
         return redirect(url_for('main.home'))
     else:
         user=User.verify_reset_token(token=token)
-
     if user is None:
         flash(message='Invalid or expired Token Supplied', category='warning')
         return redirect(url_for('users.reset_request'))

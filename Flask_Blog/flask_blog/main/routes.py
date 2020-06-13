@@ -13,8 +13,12 @@ def home():
     #wall_post=Post.query.all()
     #We want to paginate
     page=request.args.get('page',1,type=int)
+    '''
+    wall_post will contain the list of posts
+    for the particular page as passed.
+    '''
     wall_post=Post.query.order_by(Post.date_posted.desc()).paginate(per_page=5,page=page)
-    return render_template('home.html',posts=wall_post)
+    return render_template('home.html',posts=wall_post,title='Home')
 
 @main.route("/about")
 def about():

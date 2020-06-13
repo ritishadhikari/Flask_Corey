@@ -9,7 +9,6 @@ from flask_login import current_user
 
 
 
-
 class RegistrationForm(FlaskForm):
     username=StringField(label='Username',
                         validators=[DataRequired(), Length(min=3, max=20, message=None)])
@@ -37,8 +36,8 @@ class RegistrationForm(FlaskForm):
         already exists in the flask database. If the username happens to be existing,
         already, then a validation error should be given.
         '''
-        email=User.query.filter_by(email=email.data).first()
-        if email:
+        user=User.query.filter_by(email=email.data).first()
+        if user:
             raise ValidationError("That Email is Taken.\
                                    Please choose a different username.")
 
@@ -57,7 +56,7 @@ class UpdateAccountForm(FlaskForm):
     submit=SubmitField(label='Update')
     def validate_username(self,username):
         '''
-        Function to validate whether the username so typed in the regitration form
+        Function to validate whether the username so typed in the registration form
         already exists in the flask database. If the username happens to be existing,
         already, then a validation error should be given.
         '''
@@ -78,8 +77,8 @@ class UpdateAccountForm(FlaskForm):
         if email.data==current_user.email:
             current_user.email=email.data
         else:
-            email=User.query.filter_by(email=email.data).first()
-            if email:
+            user=User.query.filter_by(email=email.data).first()
+            if user:
                 raise ValidationError("That Email is Taken.\
                                        Please choose a different email.")
 
@@ -89,8 +88,8 @@ class RequestResetForm(FlaskForm):
     submit=SubmitField(label='Request Password Reset')
 
     def validate_email(self,email):
-        email=User.query.filter_by(email=email.data).first()
-        if email is None:
+        user=User.query.filter_by(email=email.data).first()
+        if user is None:
             raise ValidationError("No Account Exists.\
                                    You must register First.")
 

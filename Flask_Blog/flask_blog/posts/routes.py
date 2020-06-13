@@ -16,7 +16,8 @@ def new_post():
     if form.validate_on_submit():
         post=Post(title=form.title.data,
                   content=form.content.data,
-                  author=current_user)
+                  user_id=current_user.id)
+                  #author=current_user, #can also use this.
         db.session.add(post)
         db.session.commit()
         flash(message='Post Creation Successful', category='success')

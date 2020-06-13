@@ -26,11 +26,14 @@ mail=Mail()
 def create_app(config_class=Config):
 
     app=Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(config_class)
+
+    #Initializing the functional modules with the Flask app
     db.init_app(app)
     bcrypt.init_app(app)
     login_manager.init_app(app)
     mail.init_app(app)
+
     #importing the routes.py file after importing the app in __init__.py file
     from flask_blog.users.routes import users
     from flask_blog.main.routes import main
