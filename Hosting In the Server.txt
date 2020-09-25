@@ -1,0 +1,17 @@
+1. create host names
+hostnamectl set-hostname flask-server
+
+2. Add User
+adduser ritish
+adduser ritish sudo
+
+3. Set Uncomplicated Firewall
+sudo apt install ufw
+sudo ufw default allow outgoing
+sudo ufw default deny incoming
+sudo ufw allow ssh
+sudo ufw allow 5000
+sudo ufw enable - Enable whatever is allowed and disallowed.
+sudo ufw status - Check for the status. 
+
+4. 
